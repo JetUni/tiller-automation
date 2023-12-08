@@ -22,5 +22,10 @@
   "bugs": {
     "url": "https://github.com/JetUni/tiller-automation/issues"
   },
-  "homepage": "https://github.com/JetUni/tiller-automation#readme"
+  "homepage": "https://github.com/JetUni/tiller-automation#readme",
+  "devDependencies": {
+    "@types/node": "^20.10.4",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
+  }
 }
