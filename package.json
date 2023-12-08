@@ -1,0 +1,26 @@
+{
+  "name": "tiller-automation",
+  "version": "1.0.0",
+  "description": "This connects to a Google Sheet based on the Tiller Foundation Template to read and update rows of the balance history",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JetUni/tiller-automation.git"
+  },
+  "keywords": [
+    "tiller",
+    "google",
+    "sheets",
+    "balance",
+    "history"
+  ],
+  "author": "Jarrett Sorensen",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/JetUni/tiller-automation/issues"
+  },
+  "homepage": "https://github.com/JetUni/tiller-automation#readme"
+}
