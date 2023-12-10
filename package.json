@@ -2,8 +2,10 @@
   "name": "tiller-automation",
   "version": "1.0.0",
   "description": "This connects to a Google Sheet based on the Tiller Foundation Template to read and update rows of the balance history",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
+    "build": "tsc",
+    "start": "ts-node index.ts",
     "test": "mocha"
   },
   "repository": {
@@ -23,6 +25,11 @@
     "url": "https://github.com/JetUni/tiller-automation/issues"
   },
   "homepage": "https://github.com/JetUni/tiller-automation#readme",
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "google-auth-library": "^9.4.1",
+    "googleapis": "^129.0.0"
+  },
   "devDependencies": {
     "@types/node": "^20.10.4",
     "ts-node": "^10.9.2",
