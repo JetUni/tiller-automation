@@ -4,8 +4,8 @@ import { google } from "googleapis";
 import {
   checkForNecesarySheets as checkForNecessarySheets,
   createDataDir,
-  getAccounts,
   getSheetProperties,
+  getValues,
 } from "./src/utils/sheet";
 
 dotenv.config();
@@ -30,7 +30,9 @@ async function main() {
     const sheetProperties = await getSheetProperties(sheetsApi);
     checkForNecessarySheets(sheetProperties);
 
-    await getAccounts(sheetsApi);
+    await getValues(sheetsApi, "accounts.json", "Accounts!F:Q");
+    await getValues(sheetsApi, "balance-history.json", "'Balance History'!A:O");
+    await getValues(sheetsApi, "transactions.json", "Transactions!A:S");
   } catch (error) {
     console.error("Error:", error);
   }

@@ -43,41 +43,43 @@ export async function getSheetProperties(
 export function checkForNecesarySheets(
   sheetProperties: sheets_v4.Schema$SheetProperties[]
 ): void {
-  const transactionsSheet = sheetProperties.find((sheet) =>
-    sheet.title?.includes("Transactions")
-  );
-  if (!transactionsSheet) {
-    throw new Error("Missing transactions sheet");
-  }
+  const requiredSheets = ["Accounts", "Balance History", "Transactions"];
 
-  const balanceHistorySheet = sheetProperties.find((sheet) =>
-    sheet.title?.includes("Balance History")
-  );
-  if (!balanceHistorySheet) {
-    throw new Error("Missing balance history sheet");
-  }
+  requiredSheets.forEach((sheetName) => {
+    const sheetProperty = sheetProperties.find((sheet) =>
+      sheet.title?.includes(sheetName)
+    );
+    if (!sheetProperty) {
+      throw new Error(`Missing ${sheetName.toLowerCase()} sheet`);
+    }
+  });
 }
 
-export async function getAccounts(
-  sheetsApi: sheets_v4.Sheets
+export async function getValues(
+  sheetsApi: sheets_v4.Sheets,
+  jsonFilename: string,
+  range: string
 ): Promise<sheets_v4.Schema$ValueRange["values"]> {
-  const jsonFilename = "accounts.json";
-
   try {
     const stringAccounts = readFileSync(dataDir + jsonFilename)?.toString();
-    return JSON.parse(stringAccounts);
+    const result = JSON.parse(stringAccounts);
+    console.log(`Loaded data from ${jsonFilename}: ${result.length} rows`);
+    return result;
   } catch (error) {}
 
   // // Read data from the spreadsheet
   const response = await sheetsApi.spreadsheets.values.get({
     spreadsheetId: process.env.SPREADSHEET_ID,
-    range: "Accounts!F:Q",
+    range,
   });
   console.log("Status:", response.status);
 
   if (response.status === 200) {
     const values = response.data.values || [];
     writeFileSync(dataDir + jsonFilename, JSON.stringify(values));
+    console.log(
+      `Retrieved ${values.length} rows from Google Sheets and saved to ${jsonFilename}`
+    );
     return values;
   }
 }
