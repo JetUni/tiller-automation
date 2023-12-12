@@ -132,4 +132,3 @@ dist
 # Project specific
 # Used for storing data locally to reduce the number of requests needed
 data/
-index.js
