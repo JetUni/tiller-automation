@@ -8,6 +8,7 @@
     "build:watch": "tsc -w",
     "prestart": "npm run build",
     "start": "node ./out/index.js",
+    "debug": "ts-node ./index.ts",
     "test": "mocha"
   },
   "repository": {
@@ -27,12 +28,17 @@
     "url": "https://github.com/JetUni/tiller-automation/issues"
   },
   "homepage": "https://github.com/JetUni/tiller-automation#readme",
+  "prettier": {
+    "printWidth": 120
+  },
   "dependencies": {
     "dotenv": "^16.3.1",
     "google-auth-library": "^9.4.1",
-    "googleapis": "^129.0.0"
+    "googleapis": "^129.0.0",
+    "lodash": "^4.17.21"
   },
   "devDependencies": {
+    "@types/lodash": "^4.17.7",
     "@types/node": "^20.10.4",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
