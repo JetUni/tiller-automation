@@ -1,4 +1,3 @@
-import { randomUUID } from "crypto";
 import dotenv from "dotenv";
 import { writeFileSync } from "fs";
 import { JWT } from "google-auth-library";
@@ -9,15 +8,10 @@ import { BalanceHistory } from "./src/models/balance-history.interface";
 import { Transaction } from "./src/models/transaction.interface";
 import { saveBalanceHistoryCsv } from "./src/utils/csv";
 import { transformAccountData, transformBalanceHistoryData, transformTransactionData } from "./src/utils/data-mapping";
-import {
-  checkForNecesarySheets as checkForNecessarySheets,
-  createDataDir,
-  getSheetProperties,
-  getValues,
-} from "./src/utils/sheet";
+import { checkForNecessarySheets, createDataDir, getSheetProperties, getValues } from "./src/utils/sheet";
 
 dotenv.config({ path: "./.env.business" });
-const credentials = require("./" + process.env.PROJECT_KEY_FILENAME || "");
+const credentials = require(`./${process.env.PROJECT_KEY_FILENAME}`);
 export const dataDir = "./data/";
 
 // Create a new JWT client using the credentials
@@ -73,7 +67,6 @@ async function main() {
       balancesByAccount[accountId] = [{ ...currentBalance }];
 
       while (currentDate <= account.closed) {
-        const balanceId = "jarrett" + randomUUID().replaceAll(/-/g, "").substring(7);
         const dailyTransactions = transactionsForAccount.filter(
           (transaction) => transaction.date.toLocaleDateString() === currentDate.toLocaleDateString()
         );
@@ -84,7 +77,6 @@ async function main() {
             // No new transactions, insert last balance for currentDate
             balancesByAccount[accountId].unshift({
               ...currentBalance,
-              balanceId,
               date: new Date(currentDate),
               time: "11:59 PM",
             });
@@ -101,7 +93,6 @@ async function main() {
         balancesByAccount[accountId].unshift({
           ...currentBalance,
           balance: sum,
-          balanceId,
           date: new Date(currentDate),
           time: "11:59 PM",
         });
@@ -118,7 +109,7 @@ async function main() {
     // get a summary of the ending balance for each account
     const historySummary = Object.values(balancesByAccount).map((balance) => balance[0]);
     writeFileSync(dataDir + "balance-history-summary.json", JSON.stringify(historySummary));
-    saveBalanceHistoryCsv(historySummary, "balance-history-summary.csv");
+    saveBalanceHistoryCsv(historySummary, "balance-history-summary.csv", true);
 
     console.log("Finished");
   } catch (error) {

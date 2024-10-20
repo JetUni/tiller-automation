@@ -37,7 +37,7 @@ export async function getSheetProperties(sheetsApi: sheets_v4.Sheets): Promise<s
   return sheetProperties;
 }
 
-export function checkForNecesarySheets(sheetProperties: sheets_v4.Schema$SheetProperties[]): void {
+export function checkForNecessarySheets(sheetProperties: sheets_v4.Schema$SheetProperties[]): void {
   const requiredSheets = ["Accounts", "Balance History", "Transactions"];
 
   requiredSheets.forEach((sheetName) => {
